@@ -41,3 +41,15 @@ jobs:
             --auth-mode login \
             -o table
         done
+
+    - name: Read the flag
+      run: |
+        az storage blob download \
+          --account-name iamazurelab30741635f \
+          --container-name flag \
+          --name flag.txt \
+          --file flag.txt \
+          --auth-mode login
+
+        echo "===== FLAG ====="
+        cat flag.txt
