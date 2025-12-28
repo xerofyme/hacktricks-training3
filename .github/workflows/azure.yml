@@ -17,7 +17,7 @@ jobs:
     - name: Azure Login via OIDC
       uses: azure/login@v1
       with:
-        client-id: iam-azure-lab-3-identity
+        client-id: 3eb6b0a5-fa47-4b2f-8c85-705dac01ebad
         tenant-id: fdd066e1-ee37-49bc-b08f-d0e152119b04
         subscription-id: dcc6c69d-9c95-4b19-a54f-534937316c51
 
